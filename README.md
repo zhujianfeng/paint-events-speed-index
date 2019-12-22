@@ -6,7 +6,7 @@ There is already a project named [speedline](https://github.com/paulirish/speedl
 
 This project is inspired by [WebPageTest](https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index), and the algorithm we used is similar to WebPageTest's. Need to say that we would like to optimize the algorithm in future.
 
-The algorithm of visual progress we used in project is like this:
+The algorithm of visual progress we used in project is like this (copied from WebPageTest):
 
 * In the case of Webkit-based browsers, we collect the timeline data which includes paint rects as well as other useful events.
 * We filter out any paint events that occur before the first layout that happens after the first response data is received.
