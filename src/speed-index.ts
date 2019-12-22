@@ -11,6 +11,12 @@ export class SpeedIndex {
     frames: Frame[];
     speedIndex: number = 0;
 
+    /**
+     * 
+     * @param timeline timeline file path
+     * @param width viewport width
+     * @param height viewport height
+     */
     constructor(timeline: string, width: number, height: number) {
         this.width = width;
         this.height = height;
