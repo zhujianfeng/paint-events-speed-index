@@ -6,7 +6,10 @@ import {
     userTimingCategory,
     paintName,
     firstLayoutName,
-    paintEventsCategory
+    paintEventsCategory,
+    fullScreenWeight,
+    pointsCalculateParameter1,
+    pointsCalculateParameter2
 } from './types';
 
 type GroupType = Map<string, {points: number, events: Event[]}>;
@@ -43,7 +46,7 @@ export class EventFrame {
 
     getPaintEventFrames(): Frame[] {
         this.groupEvents();
-        this.decreaseFullScreenPoints();
+        //this.decreaseFullScreenPoints();
         this.calculateEventPoints();
 
         const totalPoints = this.calculateTotalPoints();
@@ -92,22 +95,13 @@ export class EventFrame {
             width,
             height,
             frame: paintData.frame,
-            points: width * height,
+            points: 0,
             key: ''
         };
     }
 
     calculateRect(x1: number, y1: number, x2: number, y2: number)
         : {x: number, y: number, width: number, height: number} {
-        x1 = x1 < 0 ? 0 : x1;
-        x1 = x1 > this.viewPortWidth ? this.viewPortWidth : x1; 
-        y1 = y1 < 0 ? 0 : y1;
-        y1 = y1 > this.viewPortHeight ? this.viewPortHeight : y1;
-    
-        x2 = x2 < 0 ? 0 : x2;
-        x2 = x2 > this.viewPortWidth ? this.viewPortWidth : x2; 
-        y2 = y2 < 0 ? 0 : y2;
-        y2 = y2 > this.viewPortHeight ? this.viewPortHeight : y2;
     
         return {
             x: Math.round(x1),
@@ -133,7 +127,7 @@ export class EventFrame {
             let groupInfo = this.groups.get(key);
             if (groupInfo === undefined) {
                 groupInfo = {
-                    points: e.points,
+                    points: this.calculateGroupPoints(e.x, e.y, e.width, e.height),
                     events: [e]
                 };
             } else {
@@ -143,19 +137,59 @@ export class EventFrame {
         });
     }
 
-    decreaseFullScreenPoints() {
-        let maxPoints = 0;
-        this.groups.forEach((groupInfo) => {
-            if (maxPoints < groupInfo.points) {
-                maxPoints = groupInfo.points;
-            }
-        });
+    calculateAreas(x: number, y: number, width: number, height: number) : {inFirstScreenArea: number, outOfFirstScreenArea: number} {
+        let firstScreenWidth = width;
+        let firstScreenHeight = height;
+        
+        const widthDiff = x + width - this.viewPortWidth;
+        if (widthDiff > 0) {
+            firstScreenWidth = firstScreenWidth - widthDiff;
+        }
+        if (x < 0) {
+            firstScreenWidth = firstScreenWidth + x;
+        }
 
-        this.groups.forEach((groupInfo, key) => {
-            if (maxPoints === groupInfo.points) {
-                groupInfo.points /= 2;
-            }
-        });
+        const heightDiff = y + height - this.viewPortHeight;
+        if (heightDiff > 0) {
+            firstScreenHeight = firstScreenHeight - heightDiff;
+        }
+        if (y < 0) {
+            firstScreenHeight = firstScreenHeight + y;
+        }
+
+        let inFirstScreenArea = firstScreenWidth * firstScreenHeight;
+        if (inFirstScreenArea < 0) {
+            inFirstScreenArea = 0;
+        }
+        const outOfFirstScreenArea = width * height - inFirstScreenArea;
+        return {
+            inFirstScreenArea,
+            outOfFirstScreenArea
+        };
+    }
+
+    calculateGroupPoints(x: number, y: number, width: number, height: number) : number {
+        if (x === 0 && y === 0 && width === this.viewPortWidth && height === this.viewPortHeight) {
+            return width * height / fullScreenWeight;
+        }
+        if (x >=0 && y >= 0 && x + width <= this.viewPortWidth && y + height <= this.viewPortHeight) {
+            return width * height;
+        }
+
+        if (x >= this.viewPortWidth || y >= this.viewPortHeight || x + width <= 0 || y + height <= 0) {
+            return 0;
+        }
+
+        const {inFirstScreenArea, outOfFirstScreenArea} = this.calculateAreas(x, y, width, height);
+        if (inFirstScreenArea <= 0) {
+            return 0;
+        }
+        
+        const ratio = outOfFirstScreenArea / inFirstScreenArea;
+        // 1/(2*e^(2*x))
+        const points = inFirstScreenArea / (pointsCalculateParameter1 * Math.pow(Math.E, pointsCalculateParameter2 * ratio));
+
+        return points;
     }
 
     calculateEventPoints() {

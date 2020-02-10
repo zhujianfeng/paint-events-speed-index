@@ -2,6 +2,9 @@ export const paintEventsCategory = 'devtools.timeline';
 export const paintName = 'Paint';
 export const userTimingCategory = 'blink.user_timing';
 export const firstLayoutName = 'firstLayout';
+export const fullScreenWeight = 2;
+export const pointsCalculateParameter1 = 2;
+export const pointsCalculateParameter2 = 2;
 
 export interface Event {
     time: number,

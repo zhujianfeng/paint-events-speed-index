@@ -1,4 +1,8 @@
-import {Event} from '../src/types'
+import {
+    Event,
+    fullScreenWeight,
+    pointsCalculateParameter1
+} from '../src/types'
 import {EventFrame} from '../src/paint-events';
 import {extractEventsFromTimeline} from '../src/timeline';
 import * as path from 'path';
@@ -23,9 +27,9 @@ test('genGroupKey returns the right value', () => {
 test('calculateRect returns the right value', () => {
     const eventFrame = new EventFrame(0, [], 800, 600);
     const testData = [
-        [[-100, 0, -20, 10], [0, 0, 0, 10]],
+        [[-100, 0, -20, 10], [-100, 0, 80, 10]],
         [[0, 0, 20, 10], [0, 0, 20, 10]],
-        [[0, 0, 900, 700], [0, 0, 800, 600]],
+        [[0, 0, 900, 700], [0, 0, 900, 700]],
     ];
     for (const [[x1, y1, x2, y2], [x, y, width, height]] of testData) {
         const res = eventFrame.calculateRect(x1, y1, x2, y2);
@@ -34,6 +38,47 @@ test('calculateRect returns the right value', () => {
         expect(res.width).toBe(width);
         expect(res.height).toBe(height);
     }
+});
+
+test('calculateAreas returns the right value', () => {
+    const eventFrame = new EventFrame(0, [], 800, 600);
+    const testData = [
+        [[0, 0, 100, 100], [10000, 0]],
+        [[100, 100, 100, 100], [10000, 0]],
+        [[-100, 100, 200, 100], [10000, 10000]],
+        [[100, -100, 100, 200], [10000, 10000]],
+        [[700, 100, 200, 100], [10000, 10000]],
+        [[100, 500, 100, 200], [10000, 10000]],
+        [[-100, -100, 200, 200], [10000, 30000]],
+        [[700, 500, 200, 200], [10000, 30000]],
+        [[-100, 500, 200, 200], [10000, 30000]],
+        [[700, -100, 200, 200], [10000, 30000]],
+    ];
+    for (const [[x, y, w, h], [innerArea, outArea]] of testData) {
+        const res = eventFrame.calculateAreas(x, y, w, h);
+        expect(res.inFirstScreenArea).toBe(innerArea);
+        expect(res.outOfFirstScreenArea).toBe(outArea);
+    }
+});
+
+
+test('calculateGroupPoints returns the right value', () => {
+    const eventFrame = new EventFrame(0, [], 800, 600);
+    const testData = [
+        [[0, 0, 100, 100], [10000]],
+        [[0, 0, 800, 600], [800*600/fullScreenWeight]],
+        [[801, 0, 100, 100], [0]],
+        [[0, 601, 100, 100], [0]],
+        [[-1000, 0, 100, 100], [0]],
+        [[0, -1000, 100, 100], [0]],
+    ];
+    for (const [[x, y, w, h], [points]] of testData) {
+        const res = eventFrame.calculateGroupPoints(x, y, w, h);
+        expect(res).toBe(points);
+    }
+    const res1 = eventFrame.calculateGroupPoints(100, -100, 100, 200);
+    expect(res1).toBeGreaterThan(0);
+    expect(res1).toBeLessThan(10000/pointsCalculateParameter1);
 });
 
 test('formatEvent returns the right value', () => {
@@ -93,23 +138,23 @@ test('events has been grouped correctly', () => {
     });
 });
 
-test('decrease full screen points correctly', () => {
-    const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
-    const {start, events} = extractEventsFromTimeline(timeline);
+// test('decrease full screen points correctly', () => {
+//     const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
+//     const {start, events} = extractEventsFromTimeline(timeline);
 
-    const eventFrame = new EventFrame(start, events, 1920, 1080);
-    eventFrame.groupEvents();
-    eventFrame.decreaseFullScreenPoints();
-    const groups = eventFrame.groups;
+//     const eventFrame = new EventFrame(start, events, 1920, 1080);
+//     eventFrame.groupEvents();
+//     eventFrame.decreaseFullScreenPoints();
+//     const groups = eventFrame.groups;
     
-    let max = 0;
-    groups.forEach(e => {
-        max = max < e.points ? e.points : max;
+//     let max = 0;
+//     groups.forEach(e => {
+//         max = max < e.points ? e.points : max;
         
-    });
+//     });
 
-    expect(max).toBe(1920 * 1080 / 2);
-});
+//     expect(max).toBe(1920 * 1080 / 2);
+// });
 
 test('calculate event points correctly', () => {
     const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
@@ -117,7 +162,7 @@ test('calculate event points correctly', () => {
 
     const eventFrame = new EventFrame(start, events, 1920, 1080);
     eventFrame.groupEvents();
-    eventFrame.decreaseFullScreenPoints();
+    // eventFrame.decreaseFullScreenPoints();
     eventFrame.calculateEventPoints();
     const groups = eventFrame.groups;
     
