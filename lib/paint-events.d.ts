@@ -9,6 +9,13 @@ export declare class EventFrame {
     private _groups;
     private viewPortWidth;
     private viewPortHeight;
+    /**
+     *
+     * @param startTs start ts of trace events
+     * @param traceEvents trace events from timeline
+     * @param vpWidth viewport width
+     * @param vpHeight viewport height
+     */
     constructor(startTs: number, traceEvents: TraceEvent[] | [], vpWidth: number, vpHeight: number);
     get groups(): GroupType;
     set groups(g: GroupType);
@@ -23,7 +30,11 @@ export declare class EventFrame {
     };
     genGroupKey(event: Event): string;
     groupEvents(): void;
-    decreaseFullScreenPoints(): void;
+    calculateAreas(x: number, y: number, width: number, height: number): {
+        inFirstScreenArea: number;
+        outOfFirstScreenArea: number;
+    };
+    calculateGroupPoints(x: number, y: number, width: number, height: number): number;
     calculateEventPoints(): void;
     calculateTotalPoints(): number;
 }

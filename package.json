@@ -4,9 +4,11 @@
   "description": "extract paint events from timeline and calculate speed index from paint events",
   "main": "lib/index",
   "types": "lib/index",
+  "bin": "lib/cli",
   "scripts": {
     "build": "npx tsc",
     "test": "npx jest",
+    "benchmark": "npx tsc && node lib/benchmark.js",
     "watch": "npx jest --watch"
   },
   "author": "zhujianfeng2004@gmail.com",
@@ -15,7 +17,11 @@
     "@types/jest": "^24.0.24",
     "@types/node": "^12.12.21",
     "jest": "^24.9.0",
+    "speedline": "^1.4.2",
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "meow": "^6.0.0"
   }
 }

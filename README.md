@@ -37,6 +37,25 @@ yarn test
 yarn watch
 ```
 
+## Benchmark
+Run following command to run benchmark test
+```shell
+yarn benchmark
+```
+Then, we got following benchmark data:
+
+![benchmark](./images/benchmark.png)
+
+There are hundreds of timeline data files in the project. We run benchmark test on these files.
+
+* url: page url of timeline data 
+* pespeedIndex: speedIndex calculated by the algorithm provided by this project
+* speedIndex: speedIndex calculated by speedline
+* first diff: difference between pespeedIndex and speedIndex (pespeedIndex - speedIndex)
+* perceptualSpeedIndex: perceptualSpeedIndex calculated by speedline 
+* second diff: difference between pespeedIndex and perceptualSpeedIndex (pespeedIndex - perceptualSpeedIndex) 
+
+
 ## License
 
 MIT © [Jianfeng](https://github.com/zhujianfeng)

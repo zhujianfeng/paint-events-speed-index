@@ -7,6 +7,12 @@ export declare class SpeedIndex {
     private timelineFilePath;
     frames: Frame[];
     speedIndex: number;
+    /**
+     *
+     * @param timeline timeline file path
+     * @param width viewport width
+     * @param height viewport height
+     */
     constructor(timeline: string, width: number, height: number);
     private extractFrames;
     private calculateSpeedIndex;

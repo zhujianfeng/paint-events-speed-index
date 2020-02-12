@@ -80,6 +80,7 @@ export class EventFrame {
             return e.cat.includes(paintEventsCategory) &&
                 e.ts >= this.startTs * 1000 &&
                 e.ts >= firstLayoutTime &&
+                e.ph === 'X' &&
                 e.name === paintName;
         }).map(e => this.formatEvent(e)).sort((a, b) => a.time - b.time);
     }
