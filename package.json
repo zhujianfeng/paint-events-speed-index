@@ -1,6 +1,6 @@
 {
   "name": "paint-events-speed-index",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "extract paint events from timeline and calculate speed index from paint events",
   "main": "lib/index",
   "types": "lib/index",
