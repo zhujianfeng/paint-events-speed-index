@@ -23,24 +23,53 @@ The algorithm of visual progress we used in project is like this (copied from We
 * The endTime for any given paint event is used for the time of that paint event.
 * The visual progress is calculated by adding each paint event's contribution to a running total, approaching the overall total (100%).
 
+## Command-Line Usage
+```shell
+# global install
+yarn global add paint-events-speed-index
+pespeedindex ./timeline.json 1920 1080
+# or
+npm install -g paint-events-speed-index
+pespeedindex ./timeline.json 1920 1080
+
+# local install
+yarn add paint-events-speed-index
+yarn run pespeedindex
+# or
+npm install paint-events-speed-index
+npx pespeedindex
+```
 
 ## Development
 
 ```shell
+# install dependencies
+yarn
+# or
+npm install
+
 # build
 yarn build
+# or
+npm run build
 
 # test
 yarn test
+# or
+npm run test
 
 # watch & test
 yarn watch
+# or
+npm run watch
 ```
 
 ## Benchmark
 Run following command to run benchmark test
 ```shell
 yarn benchmark
+# or
+npm run benchmark
 ```
 Then, we got following benchmark data:
 

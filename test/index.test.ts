@@ -2,7 +2,7 @@ import {paintEventsSpeedIndex} from '../src/index';
 import * as path from 'path';
 
 test('calculate speed index', () => {
-    const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
+    const timeline = path.join(__dirname, 'assets/coderjoy-com.json');
     const speedIndex = paintEventsSpeedIndex(timeline, 1920, 1080);
 
     expect(speedIndex.start).toBeGreaterThan(0);

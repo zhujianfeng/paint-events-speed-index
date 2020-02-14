@@ -77,8 +77,7 @@ test('calculateGroupPoints returns the right value', () => {
         expect(res).toBe(points);
     }
     const res1 = eventFrame.calculateGroupPoints(100, -100, 100, 200);
-    expect(res1).toBeGreaterThan(0);
-    expect(res1).toBeLessThan(10000/pointsCalculateParameter1);
+    expect(res1).toBe(10000);
 });
 
 test('formatEvent returns the right value', () => {
@@ -112,7 +111,7 @@ test('formatEvent returns the right value', () => {
 });
 
 test('filterEvents returns the right value', () => {
-    const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
+    const timeline = path.join(__dirname, 'assets/coderjoy-com.json');
     const {start, events} = extractEventsFromTimeline(timeline);
 
     const eventFrame = new EventFrame(start, events, 1920, 1080);
@@ -125,7 +124,7 @@ test('filterEvents returns the right value', () => {
 });
 
 test('events has been grouped correctly', () => {
-    const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
+    const timeline = path.join(__dirname, 'assets/coderjoy-com.json');
     const {start, events} = extractEventsFromTimeline(timeline);
 
     const eventFrame = new EventFrame(start, events, 1920, 1080);
@@ -139,7 +138,7 @@ test('events has been grouped correctly', () => {
 });
 
 // test('decrease full screen points correctly', () => {
-//     const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
+//     const timeline = path.join(__dirname, 'assets/coderjoy-com.json');
 //     const {start, events} = extractEventsFromTimeline(timeline);
 
 //     const eventFrame = new EventFrame(start, events, 1920, 1080);
@@ -157,7 +156,7 @@ test('events has been grouped correctly', () => {
 // });
 
 test('calculate event points correctly', () => {
-    const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
+    const timeline = path.join(__dirname, 'assets/coderjoy-com.json');
     const {start, events} = extractEventsFromTimeline(timeline);
 
     const eventFrame = new EventFrame(start, events, 1920, 1080);
@@ -177,7 +176,7 @@ test('calculate event points correctly', () => {
 
 
 test('getPaintEventFrames returns the right value', () => {
-    const timeline = path.join(__dirname, 'assets/coderjoy-timeline.json');
+    const timeline = path.join(__dirname, 'assets/coderjoy-com.json');
     const {start, events} = extractEventsFromTimeline(timeline);
 
     const eventFrame = new EventFrame(start, events, 1920, 1080);
@@ -187,8 +186,8 @@ test('getPaintEventFrames returns the right value', () => {
 
     frames.forEach((frame, i) => {
         expect(frame.time).toBeGreaterThanOrEqual(start);
-        expect(frame.progress).toBeGreaterThanOrEqual(0);
-        expect(frame.progress).toBeLessThanOrEqual(100);
+        expect(Math.round(frame.progress)).toBeGreaterThanOrEqual(0);
+        expect(Math.round(frame.progress)).toBeLessThanOrEqual(100);
         if (i > 0) {
             expect(frame.time).toBeGreaterThanOrEqual(frames[i-1].time);
             expect(frame.progress).toBeGreaterThanOrEqual(frames[i-1].progress);
