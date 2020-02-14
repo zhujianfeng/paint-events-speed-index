@@ -1,11 +1,11 @@
 {
   "name": "paint-events-speed-index",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "extract paint events from timeline and calculate speed index from paint events",
   "main": "lib/index",
   "types": "lib/index",
   "bin": {
-    "pespeedindex": "lib/cli"
+    "pespeedindex": "lib/cli.js"
   },
   "scripts": {
     "build": "npx tsc",
