@@ -4,7 +4,7 @@ export declare const userTimingCategory = "blink.user_timing";
 export declare const firstLayoutName = "firstLayout";
 export declare const fullScreenWeight = 2;
 export declare const pointsCalculateParameter1 = 2;
-export declare const pointsCalculateParameter2 = 2;
+export declare const pointsCalculateParameter2 = 4;
 export interface Event {
     time: number;
     x: number;

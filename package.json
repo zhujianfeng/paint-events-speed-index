@@ -4,7 +4,9 @@
   "description": "extract paint events from timeline and calculate speed index from paint events",
   "main": "lib/index",
   "types": "lib/index",
-  "bin": "lib/cli",
+  "bin": {
+    "pespeedindex": "lib/cli"
+  },
   "scripts": {
     "build": "npx tsc",
     "test": "npx jest",

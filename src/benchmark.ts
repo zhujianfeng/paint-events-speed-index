@@ -4,6 +4,9 @@ import {Options} from 'speedline';
 import * as path from 'path';
 
 const benchmarkData = [
+    ['https://coderjoy.com(man)', 'man-coderjoy-com', 1440, 820],
+    ['https://coderjoy.com', 'coderjoy-com', 1920, 1080],
+    ['https://www.126.com', 'man-www-126-com', 1440, 820],
     ['http://tuijian.hao123.com', 'tuijian-hao123-com', 1440, 820],
     ['http://www.sina.com.cn', 'www-sina-com-cn', 1440, 820],
     ['https://weibo.com', 'weibo-com', 1440, 820],

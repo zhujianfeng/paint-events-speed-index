@@ -61,7 +61,7 @@ export class EventFrame {
             };
             paintEventFrames.push(frame);
         });
-
+        //console.log(this.events);
         return paintEventFrames;
     }
 
@@ -187,9 +187,11 @@ export class EventFrame {
         }
         
         const ratio = outOfFirstScreenArea / inFirstScreenArea;
-        // 1/(2*e^(2*x))
-        const points = inFirstScreenArea / (pointsCalculateParameter1 * Math.pow(Math.E, pointsCalculateParameter2 * ratio));
-
+        let points = inFirstScreenArea;
+        if (width > this.viewPortWidth || height > this.viewPortHeight) {
+            // 1/(2*e^(2*x))
+            points = inFirstScreenArea / (pointsCalculateParameter1 * Math.pow(Math.E, pointsCalculateParameter2 * ratio));
+        }
         return points;
     }
 
