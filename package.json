@@ -1,6 +1,6 @@
 {
   "name": "paint-events-speed-index",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "extract paint events from timeline and calculate speed index from paint events",
   "main": "lib/index",
   "types": "lib/index",
@@ -15,6 +15,18 @@
   },
   "author": "zhujianfeng2004@gmail.com",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhujianfeng/paint-events-speed-index"
+  },
+  "homepage": "https://github.com/zhujianfeng/paint-events-speed-index",
+  "keywords": [
+    "speedindex",
+    "paint events",
+    "apm",
+    "timeline",
+    "speedline"
+  ],
   "devDependencies": {
     "@types/jest": "^24.0.24",
     "@types/node": "^12.12.21",
